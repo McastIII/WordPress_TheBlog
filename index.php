@@ -1,0 +1,1 @@
+<h1>ito ay index.php</h1>
