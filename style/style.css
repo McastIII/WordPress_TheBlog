@@ -524,3 +524,72 @@
     content: "\f185";
   }
   
+
+  .banner__single{
+    background: var(--dark);
+    color: var(--light);
+    padding: 4rem 0;
+  }
+
+  .banner__top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .banner__top h1{
+    max-width: 65rem;
+    width: 100%;
+  }
+
+  .banner__bottom{
+    display: flex;
+    gap: 2rem;
+  }
+
+  .banner__bottom p{
+    flex-basis: 25%;
+    align-self: flex-end;
+  }
+
+  .banner__bottom img{
+    object-fit: cover;
+    width: 100%;
+    height: 40rem;
+  }
+
+  .article__single{
+    padding: 5rem 0; 
+  }
+
+  .article__wrapper{
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    grid-gap: 5rem;
+  }
+
+  .article__info{
+    padding: 4rem;
+    background-color: var(--dark);
+    color: var(--light);
+    align-self: flex-start;
+  }
+
+  .article__info div{
+    margin-bottom: 2rem;
+  }
+
+  .article__info h3{
+    font-size: 1.8rem;
+  }
+
+  .article__info p,
+  .article__info li{
+    opacity: 0.7;
+  }
+
+  .article__body img{
+    object-fit: cover;
+    width: 100%;
+    height: 50rem;
+  }

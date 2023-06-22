@@ -1,6 +1,5 @@
-<?php get_header();?>
+<?php get_header()?>
 
-<?php if(is_page('contact')){?>
 <section class="page page__contact">
       <div class="page__contact__wrapper">
         <div class="page__contact__info">
@@ -31,5 +30,5 @@
         </div>
       </div>
     </section>
-    <?php }?>
-<?php get_footer();?>
+
+<?php get_footer()?>
