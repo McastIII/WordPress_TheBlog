@@ -1,17 +1,21 @@
 <?php get_header()?>
 
+<?php if(have_posts()) : while(have_posts()) : the_post()?>
+
 <div class="banner__single">
     <div class="container">
     <div class="banner__top">
-        <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem, dolorem.</h1>
+        <h1><?php the_title();?></h1>
         <ul>
-            <li>March 20,2021</li>
-            <li>Marcelo</li>
+            <li><?php echo get_the_date('M, j, Y')?></li>
+            <li><?php echo get_the_author_meta('first_name');?></li>
         </ul>
     </div>
     <div class="banner__bottom">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi animi repellendus dolore accusamus inventore, amet corporis ducimus quidem voluptatibus placeat! Consequuntur maxime rem aut quidem dolores error ullam rerum. Sequi consectetur et perspiciatis cupiditate est, quisquam cum corrupti quos quis.</p>
-        <img src="http://via.placeholder.com/600x400" alt="">
+        <p><?php echo get_the_excerpt();?></p>
+        <?php if(has_post_thumbnail()){
+            the_post_thumbnail();
+        }?>
     </div>
     </div>
 </div>
@@ -22,15 +26,21 @@
             <div class="article__info">
                 <div>
                     <h3>Category</h3>
-                    <p>Fashion</p>
+                    <p><?php echo get_the_category()[0]->name?></p>
                 </div>
 
                 <div>
                     <h3>Tags</h3>
                     <ul>
-                        <li>News</li>
-                        <li>Technology</li>
-                        <li>Science</li>
+                    <?php 
+                        $post_tags = get_the_tags();
+
+                        if ( $post_tags ) {
+                            foreach( $post_tags as $tag ) { ?>
+                                <li><?php echo $tag->name; ?></li>
+                          <?php  }
+                        }
+                    ?>
                     </ul>
                 </div>
 
@@ -41,18 +51,99 @@
 
                 <div>
                     <h3>Reading</h3>
-                    <p>10mins</p>
+                    <p><?php echo get_post_meta(get_the_ID(),'reading_time', true)?></p>
                 </div>
             </div>
+            
             <div class="article__body">
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae repellat odit, explicabo esse repellendus, vero pariatur nobis ad quasi tempore inventore officia aliquid adipisci reprehenderit consequatur modi, neque optio ullam iusto maiores ex. Recusandae repellendus impedit pariatur similique maiores nihil hic placeat aliquid. Earum commodi repellat illo, beatae error omnis.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam adipisci expedita ipsam, voluptates eligendi ad nesciunt libero facilis dolor suscipit voluptas aut blanditiis nam cumque cum exercitationem placeat ratione consectetur.</p>
+                <p><?php the_content();?></p> 
 
-                <img src="http://via.placeholder.com/600x400" alt="">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae quia aperiam repellendus quidem delectus similique sit et quae harum, error eos. At quo officia exercitationem vitae consectetur temporibus alias modi obcaecati voluptates molestias ad odio delectus, error incidunt repellendus id provident veritatis non ratione quas consequatur laboriosam quae maiores ipsa. Eos quis dolore, tempora tenetur soluta veniam eum cumque error!</p>
+                <ul class="single__navigation">
+                    <li><?php previous_post_link();?></li>
+                    <li><?php next_post_link();?></li>
+                </ul>
             </div>
         </div>
     </div>
 </article>
+<?php 
+                endwhile;
+                else :
+                    echo "Wala nang post!";
+                endif;
+
+                wp_reset_postdata();
+              ?>
+<section class="feature__single">
+    <div class="container">
+        <div class="feature__grid">
+            <div class="feature__single__sidebar">
+
+            <?php $cardSm = new WP_Query(array(
+                    'post-type' => 'post',
+                    'tax_query' => array(
+                        array(
+                        'taxonomy' => 'category',
+                        'field' => 'slug',
+                        'terms' => 'card-sm-banner',
+                        'include_children' => false,
+                        ),
+                    ),
+                ))
+                ?>        
+                <?php if($cardSm->have_posts()) : while($cardSm->have_posts()) : $cardSm->the_post()?>
+                <div class="feature__single__sm">
+                    <small><?php echo get_the_date('M, j, Y')?></small>
+                    <h3><?php the_title();?></h3>
+                    <a href="<?php the_permalink();?>">Read More</a>
+                </div>
+                <?php 
+                endwhile;
+                else :
+                    echo "Wala nang post!";
+                endif;
+
+                wp_reset_postdata();
+              ?>
+            </div>
+
+            <?php $cardLg = new WP_Query(array(
+                    'post-type' => 'post',
+                    'posts_per_page' => 1,
+                    'tax_query' => array(
+                        array(
+                        'taxonomy' => 'category',
+                        'field' => 'slug',
+                        'terms' => 'card-lg-banner',
+                        'include_children' => false,
+                        ),
+                    ),
+                ))
+                ?>        
+                <?php if($cardLg->have_posts()) : while($cardLg->have_posts()) : $cardLg->the_post()?>
+            <div 
+            class="feature__single__main"
+            style="background-image:
+            linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.8)),
+            url(<?php echo get_the_post_thumbnail_url(get_the_id())?>"            
+            >
+                <article>
+                    <h2><?php the_title();?></h2>
+                    <p><?php echo wp_trim_words(get_the_excerpt(), 20)?></p>
+                    <a href="<?php the_permalink();?>">Read More</a>
+                </article>
+            </div>
+        <?php
+        endwhile;
+                else :
+                    echo "Wala nang post!";
+                endif;
+
+                wp_reset_postdata();
+              ?>
+            </div>
+        </div>
+    </div>
+</section>
 
 <?php get_footer()?>
